@@ -6,16 +6,16 @@ def load_json(path):
     with open(path, 'r') as f:
         return json.load(f)
 
-def format_data(data):
+def format_data(data, type, axis_x, axis_y, axis_z):
     x_arr = []
     y_arr = []
     z_arr = []
     t_arr = []
-    for it in data["accel"]:
-        x_arr.append(it["x"])
-        y_arr.append(it["y"])
-        z_arr.append(it["z"])
-        time = it["timeStamp"]-data["accel"][0]["timeStamp"]
+    for it in data[type]:
+        x_arr.append(it[axis_x])
+        y_arr.append(it[axis_y])
+        z_arr.append(it[axis_z])
+        time = it["timeStamp"]-data[type][0]["timeStamp"]
         t_arr.append(time)
     return x_arr, y_arr, z_arr, t_arr
 
@@ -38,7 +38,7 @@ def visualize_multiple_plt(data):
     plt.show()
 
 if __name__ == "__main__":
-    data = load_json("real.json")
-    data = format_data(data)
+    data = load_json("test.json")
+    data = format_data(data, "rotDeg", "yaw", "delta", "pitch")
     visualize_single_plt(data)
     visualize_multiple_plt(data)
